@@ -5,10 +5,13 @@ Simular um Gerenciador de Arquivos em python.
 
 ## Comandos
 - ls = Listar Conteudos do diretório
-- cd = Mudar Diretorio
-- mkdir = Criar Diretorio
-- touch = Criar Arquivo
-- rm = deletar
+- cd <diretorio> = Mudar Diretorio
+- cd .. = Diretorio Raiz
+- mkdir <nome do diretorio> = Criar Diretorio
+- touch <nome do arquivo> = Criar Arquivo
+- rm <nome arquivo/diretorio> = deleta o arquivo
+- view <nome do arquivo> = Visualizar conteudo do arquivo
+- nano <nome do arquivo> = Editar conteúdo do arquivo
 - exit = Para código.
 
 ## Alunos

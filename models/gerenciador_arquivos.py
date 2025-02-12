@@ -40,12 +40,43 @@ class GerenciadorArquivos:
     def mostrar_armazenamento(self):
         print(f"Espaço usado: {self.armazenamento.espaco_usado} KB / {self.armazenamento.tamanho_total} KB")
 
+    def visualizar_arquivo(self, nome):
+        if nome in self.atual.conteudo:
+            arquivo = self.atual.conteudo[nome]
+            if isinstance(arquivo, Arquivo):
+                arquivo.visualizar()
+            else:
+                print(f"'{nome}' não é um arquivo.")
+        else:
+            print(f"Arquivo '{nome}' não encontrado.")
+
+    def editar_arquivo(self, nome, novo_conteudo):
+        if nome in self.atual.conteudo:
+            arquivo = self.atual.conteudo[nome]
+            if isinstance(arquivo, Arquivo):
+                arquivo.editar(novo_conteudo)
+            else:
+                print(f"'{nome}' não é um arquivo.")
+        else:
+            print(f"Arquivo '{nome}' não encontrado.")
+
+
     def deletar(self, nome):
         if nome in self.atual.conteudo:
             obj = self.atual.conteudo[nome]
+        
+            # Se for um arquivo, pode ser removido normalmente
             if isinstance(obj, Arquivo):
                 self.armazenamento.liberar(obj.tamanho)
-            self.atual.remover(nome)
-            print(f"'{nome}' foi deletado e liberou {obj.tamanho} KB.")
+                self.atual.remover(nome)
+                print(f"'{nome}' foi deletado e liberou {obj.tamanho} KB.")
+        
+        # Se for um diretório, verificar se está vazio
+            elif isinstance(obj, Diretorio):
+                if not obj.conteudo:  # Diretório está vazio
+                    self.atual.remover(nome)
+                    print(f"Diretório '{nome}' foi removido.")
+                else:
+                    print(f"Erro: Diretório '{nome}' não está vazio.")
         else:
             print("Arquivo ou diretório não encontrado.")
