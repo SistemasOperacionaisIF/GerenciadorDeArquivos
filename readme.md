@@ -3,6 +3,16 @@
 ## Objetivo
 Simular um Gerenciador de Arquivos em python.
 
+Projeto desenvolvido em Python em 6 Alunos para matéria de Sistemas Operacionais.
+
+O objetivo principal deste projeto é desenvolver um simulador de sistema de
+arquivos simples, porém funcional, para facilitar o entendimento de conceitos
+cruciais. Isso inclui a estruturação de diretórios, a alocação eficiente de
+arquivos, o gerenciamento de espaço em disco e os métodos de acesso a
+dados.
+
+Dentre suas funcionalidades estão sistema de usuário admin e comum, criação de diretorio, vizualização de arquivos e pastas, criar editar e remover arquivos, apenas usuários admin podem remover pastas ou arquivos, e pastas com arquivos ou mais pastas dentro não podem ser removidas
+
 ## Comandos
 
 Como iniciar o Gerenciador de Arquivos
