@@ -5,11 +5,18 @@ from models.armazenamento import Armazenamento
 
 
 class GerenciadorArquivos:
-    def __init__(self):
+    def __init__(self, usuario):
         self.raiz = Diretorio("root")
         self.atual = self.raiz  # Diretório onde o usuário está no momento
-        self.armazenamento = Armazenamento()  # Inicializa o armazenamento com 1000 KB
+        self.armazenamento = Armazenamento() 
+        self.usuario = usuario
 
+    def verificar_permissao(self, acao):
+        if self.usuario.tipo != "admin":
+            print(f"⚠️ Permissão negada! Apenas administradores podem {acao}.")
+            return False
+        return True
+    
     def mudar_diretorio(self, nome):
         if nome == "..":  # Voltar um nível
             self.atual = self.raiz
@@ -19,6 +26,9 @@ class GerenciadorArquivos:
             print("Diretório não encontrado")
 
     def criar_arquivo(self, nome):
+        if not self.verificar_permissao("criar arquivos"):
+            return
+        
         tamanho = random.randint(10, 100)  # Tamanho aleatório
         blocos_alocados = self.armazenamento.alocar_indexado(tamanho)
         
@@ -63,6 +73,9 @@ class GerenciadorArquivos:
             print(f"Arquivo '{nome}' não encontrado.")
 
     def deletar(self, nome):
+        if not self.verificar_permissao("deletar arquivos/diretórios"):
+            return
+        
         if nome in self.atual.conteudo:
             obj = self.atual.conteudo[nome]
         

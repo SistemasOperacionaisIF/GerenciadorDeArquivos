@@ -5,7 +5,7 @@ class Arquivo:
     def __init__(self, nome, tamanho, armazenamento, conteudo=""):
         self.nome = nome
         self.conteudo = conteudo
-        self.blocos = armazenamento.alocar_indexada(tamanho)
+        self.blocos = armazenamento.alocar_indexado(tamanho)
         self.tamanho = tamanho if tamanho else random.randint(10, 100)
 
     def visualizar(self):
