@@ -12,7 +12,7 @@ class GerenciadorArquivos:
 
     def mudar_diretorio(self, nome):
         if nome == "..":  # Voltar um nível
-            pass  # Precisa de uma referência ao diretório pai
+            self.atual = self.raiz
         elif nome in self.atual.conteudo and isinstance(self.atual.conteudo[nome], Diretorio):
             self.atual = self.atual.conteudo[nome]
         else:
