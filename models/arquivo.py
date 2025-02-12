@@ -2,9 +2,10 @@ import random
 
 
 class Arquivo:
-    def __init__(self, nome, tamanho ,conteudo=""):
+    def __init__(self, nome, tamanho, armazenamento, conteudo=""):
         self.nome = nome
         self.conteudo = conteudo
+        self.blocos = armazenamento.alocar_indexada(tamanho)
         self.tamanho = tamanho if tamanho else random.randint(10, 100)
 
     def visualizar(self):

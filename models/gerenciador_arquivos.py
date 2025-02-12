@@ -8,7 +8,7 @@ class GerenciadorArquivos:
     def __init__(self):
         self.raiz = Diretorio("root")
         self.atual = self.raiz  # Diretório onde o usuário está no momento
-        self.armazenamento = Armazenamento(1000)  # Inicializa o armazenamento com 1000 KB
+        self.armazenamento = Armazenamento()  # Inicializa o armazenamento com 1000 KB
 
     def mudar_diretorio(self, nome):
         if nome == "..":  # Voltar um nível
@@ -17,15 +17,17 @@ class GerenciadorArquivos:
             self.atual = self.atual.conteudo[nome]
         else:
             print("Diretório não encontrado")
-    
+
     def criar_arquivo(self, nome):
         tamanho = random.randint(10, 100)  # Tamanho aleatório
-        if self.armazenamento.pode_alocar(tamanho):
-            self.atual.adicionar(nome, Arquivo(nome, tamanho=tamanho))
-            self.armazenamento.alocar(tamanho)
-            print(f"Arquivo '{nome}' criado com {tamanho} KB.")
+        blocos_alocados = self.armazenamento.alocar_indexado(tamanho)
+        
+        if blocos_alocados:
+            arquivo = Arquivo(nome, tamanho, self.armazenamento)
+            self.atual.adicionar(nome, arquivo)
+            print(f"Arquivo '{nome}' criado com {tamanho} KB. Blocos: {blocos_alocados}")
         else:
-            print("Espaço insuficiente no armazenamento!")
+            print("Erro: Espaço insuficiente no armazenamento!")
 
     def criar_diretorio(self, nome):
         if nome in self.atual.conteudo:
@@ -60,20 +62,17 @@ class GerenciadorArquivos:
         else:
             print(f"Arquivo '{nome}' não encontrado.")
 
-
     def deletar(self, nome):
         if nome in self.atual.conteudo:
             obj = self.atual.conteudo[nome]
         
-            # Se for um arquivo, pode ser removido normalmente
             if isinstance(obj, Arquivo):
-                self.armazenamento.liberar(obj.tamanho)
+                self.armazenamento.liberar(obj.blocos)
                 self.atual.remover(nome)
-                print(f"'{nome}' foi deletado e liberou {obj.tamanho} KB.")
-        
-        # Se for um diretório, verificar se está vazio
+                print(f"'{nome}' foi deletado e liberou {len(obj.blocos)} blocos.")
+            
             elif isinstance(obj, Diretorio):
-                if not obj.conteudo:  # Diretório está vazio
+                if not obj.conteudo:
                     self.atual.remover(nome)
                     print(f"Diretório '{nome}' foi removido.")
                 else:

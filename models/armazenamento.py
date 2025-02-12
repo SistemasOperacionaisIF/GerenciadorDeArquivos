@@ -1,17 +1,22 @@
-
 class Armazenamento:
-    def __init__(self, tamanho_total=1000):  # Exemplo: 1000 KB
+    def __init__(self, tamanho_total=1000, tamanho_bloco=10):
         self.tamanho_total = tamanho_total
-        self.espaco_usado = 0
+        self.tamanho_bloco = tamanho_bloco
+        self.blocos_livres = list(range(tamanho_total // tamanho_bloco))  # Lista de blocos livres
 
-    def pode_alocar(self, tamanho):
-        return self.espaco_usado + tamanho <= self.tamanho_total
+    @property
+    def espaco_usado(self):
+        return (self.tamanho_total // self.tamanho_bloco - len(self.blocos_livres)) * self.tamanho_bloco
 
-    def alocar(self, tamanho):
-        if self.pode_alocar(tamanho):
-            self.espaco_usado += tamanho
-            return True
-        return False
+    def alocar_indexado(self, tamanho):
+        num_blocos = (tamanho + self.tamanho_bloco - 1) // self.tamanho_bloco  # Arredonda para cima
+        if len(self.blocos_livres) >= num_blocos:
+            alocados = self.blocos_livres[:num_blocos]
+            del self.blocos_livres[:num_blocos]
+            return alocados
+        else:
+            print("Erro: Espaço insuficiente!")
+            return []
 
-    def liberar(self, tamanho):
-        self.espaco_usado -= tamanho
+    def liberar(self, blocos):
+        self.blocos_livres.extend(blocos)
