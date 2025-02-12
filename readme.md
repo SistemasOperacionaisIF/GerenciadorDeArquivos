@@ -4,6 +4,10 @@
 Simular um Gerenciador de Arquivos em python.
 
 ## Comandos
+
+Como iniciar o Gerenciador de Arquivos
+`python -m view.main` No terminal da IDE
+
 - ls = Listar Conteudos do diretório
 - cd < diretorio > = Mudar Diretorio
 - cd .. = Diretorio Raiz
